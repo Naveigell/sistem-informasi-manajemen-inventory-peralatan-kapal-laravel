@@ -15,10 +15,7 @@ return new class extends Migration
     {
         Schema::create('order_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->nullable()->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('name');
-            $table->unsignedInteger('quantity');
-            $table->string('unit');
+            $table->string('order_request_random_id');
             $table->timestamps();
         });
     }

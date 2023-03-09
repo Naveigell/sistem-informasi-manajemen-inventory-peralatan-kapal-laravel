@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('unit')->comment('kg, meter, etc');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

@@ -16,12 +16,9 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('request_id')->constrained('order_requests')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('order_random_id');
             $table->date('order_date');
-            $table->unsignedInteger('quantity');
-            $table->string('unit');
-            $table->unsignedInteger('product_price');
             $table->unsignedInteger('total_price');
             $table->text('note');
             $table->timestamps();

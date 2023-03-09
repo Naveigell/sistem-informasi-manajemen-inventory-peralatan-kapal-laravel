@@ -15,4 +15,20 @@ class Supplier extends Model
     protected $fillable = [
         'name', 'city', 'payment_type',
     ];
+
+    public function getPaymentTypeFormattedAttribute()
+    {
+        return [
+            self::PAYMENT_TYPE_CASH => "Cash",
+            self::PAYMENT_TYPE_TRANSFER => "Transfer",
+        ][$this->payment_type];
+    }
+
+    public function getPaymentTypeClassFormattedAttribute()
+    {
+        return [
+            self::PAYMENT_TYPE_CASH => 'badge-success',
+            self::PAYMENT_TYPE_TRANSFER => 'badge-light',
+        ][$this->payment_type];
+    }
 }
