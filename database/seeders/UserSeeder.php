@@ -6,6 +6,7 @@ use App\Models\User;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -22,6 +23,7 @@ class UserSeeder extends Seeder
             "email" => "admin.bali@gmail.com",
             "password" => 123456,
             "role" => User::ROLE_ADMIN,
+            "placed_in" => Arr::random([User::PLACED_IN_AMBON, User::PLACED_IN_BALI]),
         ]);
 
         User::create([
@@ -29,6 +31,7 @@ class UserSeeder extends Seeder
             "email" => "admin.ambon@gmail.com",
             "password" => 123456,
             "role" => User::ROLE_ADMIN,
+            "placed_in" => Arr::random([User::PLACED_IN_AMBON, User::PLACED_IN_BALI]),
         ]);
 
         User::create([
@@ -36,6 +39,7 @@ class UserSeeder extends Seeder
             "email" => "director@gmail.com",
             "password" => 123456,
             "role" => User::ROLE_COMPANY_DIRECTOR,
+            "placed_in" => Arr::random([User::PLACED_IN_AMBON, User::PLACED_IN_BALI]),
         ]);
     }
 }

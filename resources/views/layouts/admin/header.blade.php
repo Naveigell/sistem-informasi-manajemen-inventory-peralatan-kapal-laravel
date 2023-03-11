@@ -15,12 +15,12 @@
     </style>
     <ul class="navbar-nav navbar-right">
         <li class="dropdown dropdown-list-toggle">
-            <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep position-relative">
-                <i class="far fa-bell"></i>
+{{--            <a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep position-relative">--}}
+{{--                <i class="far fa-bell"></i>--}}
 {{--                @if ($notifications->count() > 0)--}}
 {{--                    <a class="position-absolute d-inline-block bg-danger text-white" style="top: -3px; right: -5px; line-height: normal; padding: 2px 7px 2px 7px; border-radius: 100px;">{{ $notifications->count() }}</a>--}}
 {{--                @endif--}}
-            </a>
+{{--            </a>--}}
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
                 <div class="dropdown-header">
                     Notifications
@@ -43,7 +43,7 @@
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
-                <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->username }}</div>
+                <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->name }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
 {{--                <a href="{{ route('admin.biodatas.create') }}" class="dropdown-item has-icon">--}}

@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_requests', function (Blueprint $table) {
+        Schema::create('request_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('order_request_random_id');
+            $table->string('request_order_random_id');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_requests');
+        Schema::dropIfExists('request_orders');
     }
 };

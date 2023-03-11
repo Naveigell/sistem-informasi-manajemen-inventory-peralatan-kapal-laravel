@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('dashboards', \App\Http\Controllers\Admin\DashboardController::class)->only('index');
-    Route::resource('suppliers', \App\Http\Controllers\Admin\SupplierController::class)->except('show');
-    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except('show');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('redirect.if.not.authenticated')
+    ->group(function () {
+
+        Route::resource('dashboards', \App\Http\Controllers\Admin\DashboardController::class)->only('index');
+        Route::resource('suppliers', \App\Http\Controllers\Admin\SupplierController::class)->except('show');
+        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except('show');
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except('show');
 });
 
 Route::redirect('/', '/login')->name('index');
