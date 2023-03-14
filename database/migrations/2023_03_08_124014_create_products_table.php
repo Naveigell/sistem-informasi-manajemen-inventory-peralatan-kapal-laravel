@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->string('unit')->comment('kg, meter, etc');
             $table->text('note')->nullable();

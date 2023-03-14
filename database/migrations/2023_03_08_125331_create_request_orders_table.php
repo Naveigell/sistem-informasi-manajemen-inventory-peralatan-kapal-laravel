@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('request_orders', function (Blueprint $table) {
             $table->id();
-            $table->string('request_order_random_id');
+            $table->string('request_order_random_code');
             $table->timestamps();
         });
     }

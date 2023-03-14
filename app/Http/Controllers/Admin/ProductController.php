@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(10);
+        $products = Product::with('supplier')->latest()->paginate(10);
 
         return view('admin.pages.product.index', compact('products'));
     }
@@ -32,7 +33,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.product.form');
+        $suppliers = Supplier::all();
+
+        return view('admin.pages.product.form', compact('suppliers'));
     }
 
     /**
@@ -56,7 +59,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('admin.pages.product.form', compact('product'));
+        $suppliers = Supplier::all();
+
+        return view('admin.pages.product.form', compact('product', 'suppliers'));
     }
 
     /**

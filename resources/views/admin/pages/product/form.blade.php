@@ -22,6 +22,20 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label>Supplier</label>
+                        <select name="supplier_id" id="" class="form-control @error('supplier_id') is-invalid @enderror">
+                            <x-nothing-selected></x-nothing-selected>
+                            @foreach($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}" @if(old('supplier_id', @$product ? $product->supplier_id : '') == $supplier->id) selected @endif>{{ $supplier->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('payment_type')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
                         <label>Unit</label>
                         <input type="text" class="form-control @error('unit') is-invalid @enderror" name="unit" value="{{ old('unit', @$product ? $product->unit : '') }}">
                         @error('unit')

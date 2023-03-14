@@ -16,6 +16,11 @@ class Supplier extends Model
         'name', 'city', 'payment_type',
     ];
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function getPaymentTypeFormattedAttribute()
     {
         return [

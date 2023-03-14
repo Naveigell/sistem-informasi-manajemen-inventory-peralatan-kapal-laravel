@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\Supplier;
 use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,9 +21,12 @@ class ProductSeeder extends Seeder
         $faker = Factory::create('id_ID');
         $products = [];
 
+        $suppliers = Supplier::all();
+
         foreach (range(1, 10) as $item) {
             $products[] = [
-                "name" => $faker->city . '-' . $faker->uuid,
+                "supplier_id" => $suppliers->random()->id,
+                "name" => $faker->country . '-' . $faker->countryCode,
                 "unit" => Arr::random(array_keys(Product::PRODUCT_UNITS)),
                 "note" => $faker->realText,
                 "created_at" => now()->toDateTimeString(),

@@ -14,6 +14,8 @@
                 <li class="menu-header">Additional</li>
                 <li class="@if (request()->routeIs('admin.products.*')) active @endif"><a class="nav-link" href="{{ route('admin.products.index') }}"><i class="fas fa-shopping-bag"></i> <span>Produk</span></a></li>
                 <li class="@if (request()->routeIs('admin.suppliers.*')) active @endif"><a class="nav-link" href="{{ route('admin.suppliers.index') }}"><i class="fas fa-truck-loading"></i> <span>Supplier</span></a></li>
+                <li class="menu-header">Request & Shipping</li>
+                <li class="@if (request()->routeIs('admin.request-orders.*')) active @endif"><a class="nav-link" href="{{ route('admin.request-orders.index') }}"><i class="fas fa-paper-plane"></i> <span>Request</span></a></li>
             @endif
             @if (auth()->user()->isDirector())
                 <li class="menu-header">Members</li>

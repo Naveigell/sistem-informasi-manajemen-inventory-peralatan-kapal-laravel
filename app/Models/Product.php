@@ -15,5 +15,10 @@ class Product extends Model
         "pieces" => "buah"
     ];
 
-    protected $fillable = ['name', 'unit', 'note'];
+    protected $fillable = ['supplier_id', 'name', 'unit', 'note'];
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 }

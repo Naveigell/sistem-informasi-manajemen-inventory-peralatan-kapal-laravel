@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Supplier;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -13,7 +14,10 @@ class ProductRequest extends FormRequest
      */
     public function rules()
     {
+        $suppliers = Supplier::pluck('id')->join(',');
+
         return [
+            "supplier_id" => "required|string|in:{$suppliers}",
             "name" => "required|string|max:100",
             "unit" => "required|string|max:10",
             "note" => "nullable|string|max:2000",
