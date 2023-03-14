@@ -17,4 +17,9 @@ class RequestOrder extends Model
     {
         return $this->hasMany(RequestOrderDetail::class, 'request_id');
     }
+
+    public function order()
+    {
+        return $this->hasOne(Order::class, 'request_id');
+    }
 }

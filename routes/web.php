@@ -23,6 +23,7 @@ Route::prefix('admin')
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except('show');
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except('show');
 
+        Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->except('show');
         Route::resource('request-orders', \App\Http\Controllers\Admin\RequestOrderController::class)
             ->except('show')
             ->parameter('request-orders', 'requestOrder');

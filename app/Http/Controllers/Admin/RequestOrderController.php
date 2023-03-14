@@ -50,7 +50,6 @@ class RequestOrderController extends Controller
     {
         DB::transaction(function () use ($request) {
             $requestOrder = RequestOrder::create($request->validated());
-            $requestOrder->save();
 
             $requestOrder->requestOrderDetails()->createMany($request->getOrderDetails());
         });

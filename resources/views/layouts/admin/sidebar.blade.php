@@ -15,7 +15,14 @@
                 <li class="@if (request()->routeIs('admin.products.*')) active @endif"><a class="nav-link" href="{{ route('admin.products.index') }}"><i class="fas fa-shopping-bag"></i> <span>Produk</span></a></li>
                 <li class="@if (request()->routeIs('admin.suppliers.*')) active @endif"><a class="nav-link" href="{{ route('admin.suppliers.index') }}"><i class="fas fa-truck-loading"></i> <span>Supplier</span></a></li>
                 <li class="menu-header">Request & Shipping</li>
-                <li class="@if (request()->routeIs('admin.request-orders.*')) active @endif"><a class="nav-link" href="{{ route('admin.request-orders.index') }}"><i class="fas fa-paper-plane"></i> <span>Request</span></a></li>
+                @if (auth()->user()->isAdmin())
+                    <li class="@if (request()->routeIs('admin.request-orders.*')) active @endif"><a class="nav-link" href="{{ route('admin.request-orders.index') }}"><i class="fas fa-paper-plane"></i> <span>Request</span></a></li>
+
+                    @if(auth()->user()->isInBali())
+                        <li class="@if (request()->routeIs('admin.orders.*')) active @endif"><a class="nav-link" href="{{ route('admin.orders.index') }}"><i class="fas fa-download"></i> <span>Order</span></a></li>
+                    @endif
+
+                @endif
             @endif
             @if (auth()->user()->isDirector())
                 <li class="menu-header">Members</li>

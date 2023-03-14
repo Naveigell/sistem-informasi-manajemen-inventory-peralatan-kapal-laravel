@@ -1,6 +1,6 @@
 @extends('layouts.admin.admin')
 
-@section('content-title', 'Request Barang')
+@section('content-title', 'Order Barang')
 
 @section('content-body')
     @if ($message = session()->get('success'))
@@ -9,10 +9,7 @@
     <div class="col-lg-12 col-md-12 col-12 col-sm-12 no-padding-margin">
         <div class="card">
             <div class="card-header">
-                <h4>Request</h4>
-                <div class="card-header-action">
-                    <a href="{{ route('admin.request-orders.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Request</a>
-                </div>
+                <h4>Order</h4>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -27,21 +24,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($requests as $request)
+                        @forelse($orders as $order)
                             <tr>
                                 <td>
-                                    <x-iterate :pagination="$requests" :loop="$loop"></x-iterate>
+                                    <x-iterate :pagination="$orders" :loop="$loop"></x-iterate>
                                 </td>
-                                <td>{{ $request->request_order_random_code }}</td>
-                                <td>{{ $request->request_order_details_count }}</td>
-                                <td>{{ $request->created_at->format('d F Y') }}</td>
+                                <td>{{ $order->order_random_code }}</td>
+                                <td>{{ $order->order_details_count }}</td>
+                                <td>{{ $order->created_at->format('d F Y') }}</td>
                                 <td>
-                                    @if (auth()->user()->isInAmbon())
-                                        <a href="{{ route('admin.request-orders.edit', $request) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>
-                                        <button class="btn btn-danger btn-action trigger--modal-delete cursor-pointer" data-url="{{ route('admin.request-orders.destroy', $request) }}"><i class="fas fa-trash"></i></button>
-                                    @elseif(auth()->user()->isInBali())
-                                        <a href="{{ route('admin.orders.create', ["request_id" => $request->id]) }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
-                                    @endif
+                                    <a href="{{ route('admin.orders.edit', $order) }}" class="btn btn-warning"><i class="fa fa-box"></i></a>
                                 </td>
                             </tr>
                         @empty
@@ -53,12 +45,12 @@
                     </table>
                 </div>
 
-                {{ $requests->links() }}
+                {{ $orders->links() }}
             </div>
         </div>
     </div>
 @endsection
 
 @section('content-modal')
-    <x-modal.delete :name="'Request'"></x-modal.delete>
+    <x-modal.delete :name="'Order'"></x-modal.delete>
 @endsection

@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             "email" => "admin.bali@gmail.com",
             "password" => 123456,
             "role" => User::ROLE_ADMIN,
-            "placed_in" => Arr::random([User::PLACED_IN_AMBON, User::PLACED_IN_BALI]),
+            "placed_in" => User::PLACED_IN_BALI,
         ]);
 
         User::create([
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             "email" => "admin.ambon@gmail.com",
             "password" => 123456,
             "role" => User::ROLE_ADMIN,
-            "placed_in" => Arr::random([User::PLACED_IN_AMBON, User::PLACED_IN_BALI]),
+            "placed_in" => User::PLACED_IN_AMBON,
         ]);
 
         User::create([

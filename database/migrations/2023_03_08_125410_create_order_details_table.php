@@ -15,12 +15,10 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('name');
             $table->unsignedInteger('quantity');
-            $table->string('unit');
-            $table->unsignedInteger('product_price');
             $table->timestamps();
         });
     }

@@ -61,6 +61,16 @@ class User extends Authenticatable
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function isInBali()
+    {
+        return in_array($this->placed_in, [self::PLACED_IN_BALI]);
+    }
+
+    public function isInAmbon()
+    {
+        return in_array($this->placed_in, [self::PLACED_IN_AMBON]);
+    }
+
     public function isAdmin()
     {
         return in_array($this->role, [self::ROLE_ADMIN]);

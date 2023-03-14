@@ -17,10 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('request_id')->constrained('request_orders')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('order_random_id');
+            $table->string('order_random_code');
             $table->date('order_date');
-            $table->unsignedInteger('total_price');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
