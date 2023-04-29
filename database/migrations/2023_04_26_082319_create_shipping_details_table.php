@@ -13,18 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('shipping_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->date('transaction_date');
+            $table->foreignId('order_detail_id')->constrained('order_details')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('shipping_id')->constrained('shippings')->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedInteger('quantity');
-            $table->string('unit');
-            $table->unsignedInteger('product_price');
-            $table->unsignedInteger('total_price');
-            $table->date('received_date');
-            $table->text('note');
             $table->timestamps();
         });
     }
@@ -36,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('shipping_details');
     }
 };

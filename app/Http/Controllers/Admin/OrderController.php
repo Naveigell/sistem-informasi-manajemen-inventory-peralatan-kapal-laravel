@@ -32,14 +32,10 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        abort_if(!$request->get('request_id'), 404);
+        abort_if(!$request->filled('request_id'), 404);
 
         $requestOrder = RequestOrder::find($request->get('request_id'))->load('requestOrderDetails');
-        $suppliers = Supplier::with(['products' => function ($query) use ($requestOrder) {
-            $query->whereIn('id', $requestOrder->requestOrderDetails->pluck('product_id'));
-        }])->whereHas('products', function ($query) use ($requestOrder) {
-            $query->whereIn('id', $requestOrder->requestOrderDetails->pluck('product_id'));
-        })->get();
+        $suppliers = $this->filteredSuppliers($requestOrder->requestOrderDetails->pluck('product_id'));
 
         return view('admin.pages.order.form', compact('requestOrder', 'suppliers'));
     }
@@ -73,9 +69,9 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $suppliers = Supplier::with('products')->has('products')->get();
+        $order->load('requestOrder.requestOrderDetails');
 
-        $order->load('requestOrder');
+        $suppliers = $this->filteredSuppliers($order->requestOrder->requestOrderDetails->pluck('product_id'));
 
         return view('admin.pages.order.form', compact('order', 'suppliers'));
     }
@@ -83,13 +79,18 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param OrderRequest $request
+     * @param Order $order
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(OrderRequest $request, Order $order)
     {
-        //
+        DB::transaction(function () use ($request, $order) {
+            $order->orderDetails()->delete();
+            $order->orderDetails()->createMany($request->getOrderDetails());
+        });
+
+        return redirect(route('admin.orders.index'))->with('success', 'Berhasil mengubah order');
     }
 
     /**
@@ -101,5 +102,14 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function filteredSuppliers($productIds)
+    {
+        return Supplier::with(['products' => function ($query) use ($productIds) {
+            $query->whereIn('id', $productIds);
+        }])->whereHas('products', function ($query) use ($productIds) {
+            $query->whereIn('id', $productIds);
+        })->get();
     }
 }

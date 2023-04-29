@@ -2,10 +2,10 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Ct</a>
+            <a href="{{ route('admin.dashboards.index') }}">Inventory</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">Ct</a>
+            <a href="{{ route('admin.dashboards.index') }}">Invt</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Home</li>
@@ -24,6 +24,7 @@
 
                 @endif
             @endif
+            <li class="@if (request()->routeIs('admin.shippings.*')) active @endif"><a class="nav-link" href="{{ route('admin.shippings.index') }}"><i class="fas fa-truck"></i> <span>Pengiriman</span></a></li>
             @if (auth()->user()->isDirector())
                 <li class="menu-header">Members</li>
                 <li class="@if (request()->routeIs('admin.users.*')) active @endif"><a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fas fa-user"></i> <span>Admin</span></a></li>

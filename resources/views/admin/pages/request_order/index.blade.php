@@ -10,9 +10,11 @@
         <div class="card">
             <div class="card-header">
                 <h4>Request</h4>
-                <div class="card-header-action">
-                    <a href="{{ route('admin.request-orders.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Request</a>
-                </div>
+                @if(auth()->user()->isAdmin() && auth()->user()->isInAmbon())
+                    <div class="card-header-action">
+                        <a href="{{ route('admin.request-orders.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Request</a>
+                    </div>
+                @endif
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
