@@ -18,21 +18,23 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            "name" => "Admin Bali Test",
-            "email" => "admin.bali@gmail.com",
-            "password" => 123456,
-            "role" => User::ROLE_ADMIN,
-            "placed_in" => User::PLACED_IN_BALI,
-        ]);
+        if (config('app.env') == 'development') {
+            User::create([
+                "name" => "Admin Bali Test",
+                "email" => "admin.bali@gmail.com",
+                "password" => 123456,
+                "role" => User::ROLE_ADMIN,
+                "placed_in" => User::PLACED_IN_BALI,
+            ]);
 
-        User::create([
-            "name" => "Admin Ambon Test",
-            "email" => "admin.ambon@gmail.com",
-            "password" => 123456,
-            "role" => User::ROLE_ADMIN,
-            "placed_in" => User::PLACED_IN_AMBON,
-        ]);
+            User::create([
+                "name" => "Admin Ambon Test",
+                "email" => "admin.ambon@gmail.com",
+                "password" => 123456,
+                "role" => User::ROLE_ADMIN,
+                "placed_in" => User::PLACED_IN_AMBON,
+            ]);
+        }
 
         User::create([
             "name" => "Director Test",

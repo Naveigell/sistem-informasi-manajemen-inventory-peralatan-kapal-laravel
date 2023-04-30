@@ -11,10 +11,10 @@
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
-                        <h4>Total Cuti Diterima</h4>
+                        <h4>Total Request</h4>
                     </div>
                     <div class="card-body">
-{{--                        {{ $totalLeavesApproved }}--}}
+                        {{ $totalRequest }}
                     </div>
                 </div>
             </div>
@@ -26,10 +26,10 @@
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
-                        <h4>Total Cuti Ditolak</h4>
+                        <h4>Total Order</h4>
                     </div>
                     <div class="card-body">
-{{--                        {{ $totalLeavesRejected }}--}}
+                        {{ $totalOrder }}
                     </div>
                 </div>
             </div>
@@ -41,10 +41,10 @@
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
-                        <h4>Total Cuti Pending</h4>
+                        <h4>Total Pengiriman (Sedang Dikirim)</h4>
                     </div>
                     <div class="card-body">
-{{--                        {{ $totalLeavesPending }}--}}
+                        {{ $totalShippingOnDelivery }}
                     </div>
                 </div>
             </div>
@@ -56,10 +56,10 @@
                 </div>
                 <div class="card-wrap">
                     <div class="card-header">
-                        <h4>Total Pegawai</h4>
+                        <h4>Total Pengiriman (Telah Tiba)</h4>
                     </div>
                     <div class="card-body">
-{{--                        {{ $totalEmployee }}--}}
+                        {{ $totalShippingArrived }}
                     </div>
                 </div>
             </div>
@@ -81,5 +81,39 @@
 
 @push('stack-script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script>
+        const data = {
+            labels: @json(array_keys($data)),
+            datasets: [{
+                label: 'Pengiriman (Tiba)',
+                backgroundColor: 'rgb(111,169,227)',
+                borderColor: 'rgb(111,169,227)',
+                data: @json(array_values($data)),
+                lineTension: 0.4,
+                fill: true
+            }]
+        };
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                scale: {
+                    ticks: {
+                        precision: 0
+                    }
+                },
+                elements: {
+                    point:{
+                        radius: 0
+                    }
+                }
+            }
+        };
+    </script>
+    <script>
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
 @endpush
