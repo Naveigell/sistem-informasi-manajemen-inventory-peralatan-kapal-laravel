@@ -22,7 +22,7 @@ Route::prefix('admin')
         Route::resource('suppliers', \App\Http\Controllers\Admin\SupplierController::class)->except('show');
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except('show');
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except('show');
-        Route::resource('shippings', \App\Http\Controllers\Admin\ShippingController::class)->except('show');
+        Route::resource('shippings', \App\Http\Controllers\Admin\ShippingController::class)->except('show', 'destroy');
 
         Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->except('show');
         Route::resource('request-orders', \App\Http\Controllers\Admin\RequestOrderController::class)

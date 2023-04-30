@@ -26,11 +26,15 @@
                             <th class="col-1">Jumlah Barang</th>
                             <th class="col-5">List Barang</th>
                             <th class="col-2">Status</th>
+                            <th class="col-2">Catatan</th>
                             <th class="col-2">Tanggal Dibuat</th>
+                            @if(auth()->user()->isDirector() || (auth()->user()->isAdmin() && auth()->user()->isInAmbon()))
+                                <th class="col-2">Aksi</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($shippings as $shipping)
+                            @forelse($shippings as $shipping)
                                 <tr>
                                     <td>
                                         <x-iterate :pagination="$shippings" :loop="$loop"></x-iterate>
@@ -51,12 +55,29 @@
                                     <td>
                                         <span class="badge {{ $shipping->status_class_css }}">{{ $shipping->status_formatted }}</span>
                                     </td>
+                                    <td>{{ $shipping->note ?? '-' }}</td>
                                     <td>{{ optional($shipping->shipped_date)->format('d F Y') ?? '-' }}</td>
+                                    @if(auth()->user()->isDirector())
+                                        <td>
+                                            <a href="{{ route('admin.shippings.edit', $shipping) }}" class="btn btn-warning"><i class="fa fa-sticky-note"></i></a>
+                                        </td>
+                                    @endif
+                                    @if(auth()->user()->isAdmin() && auth()->user()->isInAmbon())
+                                        <td>
+                                            <a href="{{ route('admin.shippings.edit', $shipping) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>
+                                        </td>
+                                    @endif
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center">Data Empty</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
+
+                {{ $shippings->links() }}
             </div>
         </div>
     </div>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('shipping_random_code');
             $table->dateTime('shipped_date')->nullable();
             $table->dateTime('received_date')->nullable();
+            $table->text('note')->nullable();
             $table->string('status');
             $table->timestamps();
         });

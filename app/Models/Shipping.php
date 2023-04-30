@@ -10,8 +10,9 @@ class Shipping extends Model
     use HasFactory;
 
     const STATUS_ON_DELIVERY = 'on_delivery';
+    const STATUS_ARRIVED = 'arrived';
 
-    protected $fillable = ['shipping_random_code', 'shipped_date', 'received_date', 'status'];
+    protected $fillable = ['shipping_random_code', 'shipped_date', 'received_date', 'note', 'status'];
 
     protected $casts = [
         'received_date' => 'datetime',
@@ -35,5 +36,10 @@ class Shipping extends Model
     public function getStatusFormattedAttribute()
     {
         return ucwords(str_replace('_', ' ', $this->status));
+    }
+
+    public static function statusList()
+    {
+        return [self::STATUS_ON_DELIVERY, self::STATUS_ARRIVED];
     }
 }

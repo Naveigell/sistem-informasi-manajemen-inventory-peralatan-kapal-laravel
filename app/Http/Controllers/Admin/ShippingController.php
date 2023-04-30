@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ShippingRequest;
 use App\Models\OrderDetail;
 use App\Models\Shipping;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -75,23 +76,39 @@ class ShippingController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function edit($id)
+    public function edit(Shipping $shipping)
     {
-        //
+        $shipping->load('shippingDetails');
+
+        $orderDetails = OrderDetail::with('product', 'supplier', 'order')
+            ->whereHas('shippingDetail', function ($query) use ($shipping) {
+                $query->whereIn('order_detail_id', $shipping->shippingDetails->pluck('order_detail_id'));
+            })
+            ->get()
+            ->groupBy('order.order_random_code');
+
+        return view('admin.pages.shipping.form', compact('shipping', 'orderDetails'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param ShippingRequest $request
+     * @param Shipping $shipping
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(ShippingRequest $request, Shipping $shipping)
     {
-        //
+        $shipping->update($request->validated());
+
+        $messages = [
+            User::ROLE_COMPANY_DIRECTOR => "Berhasil mengubah note",
+            User::ROLE_ADMIN => "Berhasil mengubah status pengiriman",
+        ];
+
+        return redirect(route('admin.shippings.index'))->with('success', $messages[auth()->user()->role]);
     }
 
     /**
