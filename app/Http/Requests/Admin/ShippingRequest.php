@@ -54,6 +54,11 @@ class ShippingRequest extends FormRequest
             $rules = [
                 "status" => "required|string|in:" . join(',', Shipping::statusList())
             ];
+
+            // if ambon admin choose arrived, the received date must be required
+            if ($this->status == Shipping::STATUS_ARRIVED) {
+                $rules['received_date'] = "required|date";
+            }
         }
 
         return $rules;

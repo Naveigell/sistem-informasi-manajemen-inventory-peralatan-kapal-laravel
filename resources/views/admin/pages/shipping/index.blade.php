@@ -28,6 +28,7 @@
                             <th class="col-2">Status</th>
                             <th class="col-2">Catatan</th>
                             <th class="col-2">Tanggal Dibuat</th>
+                            <th class="col-2">Tanggal Tiba</th>
                             @if(auth()->user()->isDirector() || (auth()->user()->isAdmin() && auth()->user()->isInAmbon()))
                                 <th class="col-2">Aksi</th>
                             @endif
@@ -57,6 +58,7 @@
                                     </td>
                                     <td>{{ $shipping->note ?? '-' }}</td>
                                     <td>{{ optional($shipping->shipped_date)->format('d F Y') ?? '-' }}</td>
+                                    <td>{{ optional($shipping->received_date)->format('d F Y') ?? '-' }}</td>
                                     @if(auth()->user()->isDirector())
                                         <td>
                                             <a href="{{ route('admin.shippings.edit', $shipping) }}" class="btn btn-warning"><i class="fa fa-sticky-note"></i></a>
@@ -70,7 +72,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">Data Empty</td>
+                                    <td colspan="9" class="text-center">Data Empty</td>
                                 </tr>
                             @endforelse
                         </tbody>

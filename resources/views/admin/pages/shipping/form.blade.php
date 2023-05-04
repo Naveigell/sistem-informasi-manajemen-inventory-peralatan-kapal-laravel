@@ -57,16 +57,25 @@
                         @if(auth()->user()->isDirector())
                             <div class="form-group">
                                 <label for="note">Catatan</label>
-                                <textarea name="note" id="note" cols="30" rows="10" class="form-control" style="resize: none; min-height: 170px;">{{ $shipping->note }}</textarea>
+                                <textarea name="note" id="note" cols="30" rows="10" class="form-control @error('note') is-invalid @enderror" style="resize: none; min-height: 170px;">{{ $shipping->note }}</textarea>
                             </div>
                         @endif
                         @if(auth()->user()->isAdmin() && auth()->user()->isInAmbon())
+                            <div class="form-group" id="received-date-container">
+                                <label for="received-date">Tanggal Tiba</label>
+                                <input type="date" class="form-control @error('received_date') is-invalid @enderror" name="received_date" id="received-date" value="{{ old('received_date', @$shipping ? optional($shipping->received_date)->format('Y-m-d') : '') }}">
+                                @error('received_date')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
                             <div class="form-group">
                                 <label for="status">Status Pengiriman</label>
                                 <select name="status" id="status" class="form-control">
                                     <x-nothing-selected></x-nothing-selected>
                                     @foreach(\App\Models\Shipping::statusList() as $status)
-                                        <option @if($shipping->status == $status) selected @endif value="{{ $status }}">{{ ucwords(str_replace('_', ' ', $status)) }}</option>
+                                        <option @if($status == \App\Models\Shipping::STATUS_ARRIVED) data-with-date="true" @endif @if(old('status', $shipping->status) == $status) selected @endif value="{{ $status }}">{{ ucwords(str_replace('_', ' ', $status)) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -81,10 +90,28 @@
 
 @push('stack-script')
     <script>
-        $(document).ready(function () {
-            const container = $('.select2--container');
+        const container = $('.select2--container');
+        const receivedDateContainer = $('#received-date-container');
+        const status = $('#status');
 
+        receivedDateContainer.hide();
+
+        $(document).ready(function () {
             container.select2();
+            status.on('change', function () {
+                const withDate = $(this).find(':selected').data('with-date');
+
+                if (withDate) {
+                    receivedDateContainer.show();
+                } else {
+                    receivedDateContainer.hide();
+                }
+            })
         })
     </script>
+    @if(@$shipping && $shipping->status == \App\Models\Shipping::STATUS_ARRIVED || $errors->has('received_date'))
+        <script>
+            receivedDateContainer.show();
+        </script>
+    @endif
 @endpush
