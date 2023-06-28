@@ -48,7 +48,32 @@
                                 @foreach($suppliers as $supplier)
                                     <optgroup label="{{ $supplier->name }}">
                                         @foreach($supplier->products as $product)
-                                            <option @if (@$requestOrder ? $requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->isNotEmpty() : $order->requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->isNotEmpty()) selected @endif value="{{ $product->id }}">{{ $product->name }}</option>
+                                            @php
+                                                // if request order available, we take from request_order
+                                                // if not, we take from order (for $quantity, $selected, $price, $priceFormatted)
+                                                $quantity = @$requestOrder ?
+                                                            optional($requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->first())->quantity :
+                                                            optional($order->requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->first())->quantity;
+
+                                                // if quantity is null, we change to zero
+                                                $quantity = $quantity ?? 0;
+
+                                                $selected = @$requestOrder ?
+                                                            $requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->isNotEmpty() :
+                                                            $order->requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->isNotEmpty();
+
+                                                $price = @$requestOrder ?
+                                                            optional(optional($requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->first())->product)->price :
+                                                            optional(optional($order->requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->first())->product)->price;
+
+                                                $priceFormatted = @$requestOrder ?
+                                                            optional(optional($requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->first())->product)->price_formatted :
+                                                            optional(optional($order->requestOrder->requestOrderDetails->whereIn('product_id', $product->id)->first())->product)->price_formatted;
+
+                                                $price = (int) $price; // cast to integer, remove decimal
+                                            @endphp
+
+                                            <option @if ($selected) selected @endif value="{{ $product->id }}">{{ $product->name }} [x{{ $quantity }}] (per pcs: Rp. {{ $priceFormatted }}, total: Rp. {{ number_format($price * $quantity, 0, ',' , '.') }})</option>
                                         @endforeach
                                     </optgroup>
                                 @endforeach

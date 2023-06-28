@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -46,7 +47,10 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        Product::create($request->validated());
+        DB::transaction(function () use ($request) {
+            $product = Product::create($request->validated());
+            $product->snapshots()->create($product->getAttributeWithoutUnusedAttributes()); // everytime the product edited or created, we make a snapshot
+        });
 
         return redirect(route('admin.products.index'))->with('success', 'Berhasil menambah produk');
     }
@@ -73,7 +77,10 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        DB::transaction(function () use ($request, $product) {
+            $product->update($request->validated());
+            $product->snapshots()->create($product->getAttributeWithoutUnusedAttributes());
+        });
 
         return redirect(route('admin.products.index'))->with('success', 'Berhasil mengubah produk');
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RequestOrderRequest;
 use App\Models\Product;
+use App\Models\ProductSnapshot;
 use App\Models\RequestOrder;
 use App\Models\Supplier;
 use Illuminate\Contracts\Foundation\Application;
@@ -12,6 +13,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class RequestOrderController extends Controller
@@ -50,7 +52,8 @@ class RequestOrderController extends Controller
     {
         DB::transaction(function () use ($request) {
             $requestOrder = RequestOrder::create($request->validated());
-
+            // create the snapshot first, it's because in $request->getOrderDetails() function, it retrieves the latest snapshot
+            $this->createProductSnapshots($request);
             $requestOrder->requestOrderDetails()->createMany($request->getOrderDetails());
         });
 
@@ -83,6 +86,8 @@ class RequestOrderController extends Controller
     {
         DB::transaction(function () use ($request, $requestOrder) {
             $requestOrder->requestOrderDetails()->delete();
+            // create the snapshot first, it's because in $request->getOrderDetails() function, it retrieves the latest snapshot
+            $this->createProductSnapshots($request);
             $requestOrder->requestOrderDetails()->createMany($request->getOrderDetails());
         });
 
@@ -100,5 +105,16 @@ class RequestOrderController extends Controller
         $requestOrder->delete();
 
         return redirect(route('admin.request-orders.index'))->with('success', 'Berhasil menghapus request');
+    }
+
+    private function createProductSnapshots(RequestOrderRequest $request)
+    {
+        // we save the product to snapshot one by one
+        foreach ($request->getProducts() as $product) {
+            $snapshot = new ProductSnapshot($product->getAttributeWithoutUnusedAttributes()); // we remove unused attributes
+            $snapshot->product()
+                ->associate($product)
+                ->save();
+        }
     }
 }

@@ -21,6 +21,7 @@ Route::prefix('admin')
         Route::resource('dashboards', \App\Http\Controllers\Admin\DashboardController::class)->only('index');
         Route::resource('suppliers', \App\Http\Controllers\Admin\SupplierController::class)->except('show');
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class)->except('show');
+        Route::resource('products.snapshots', \App\Http\Controllers\Admin\ProductSnapshotController::class)->only('index')->shallow();
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except('show');
         Route::resource('shippings', \App\Http\Controllers\Admin\ShippingController::class)->except('show', 'destroy');
 

@@ -13,9 +13,18 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Nama</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', @$product ? $product->name : '') }}">
                         @error('name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label>Harga</label>
+                        <input type="text" class="form-control nominal @error('price') is-invalid @enderror" name="price" value="{{ old('price', @$product ? (int) $product->price : '') }}">
+                        @error('price')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -44,9 +53,36 @@
                         </div>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label>Note</label>
+                        <textarea name="note" id="note" cols="30" rows="10" class="form-control @error('unit') is-invalid @enderror" style="min-height: 200px; resize: none;">{{ old('note', @$product ? $product->note : '') }}</textarea>
+                        @error('note')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 @endsection
+
+@push('stack-script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
+    <script>
+        $(".nominal").inputmask({
+            alias : "currency",
+            groupSeparator: ".",
+            radixPoint: ',',
+            prefix: "Rp. ",
+            placeholder: "",
+            allowPlus: false,
+            allowMinus: false,
+            rightAlign: false,
+            digits: 0,
+            removeMaskOnSubmit: true,
+        });
+    </script>
+@endpush

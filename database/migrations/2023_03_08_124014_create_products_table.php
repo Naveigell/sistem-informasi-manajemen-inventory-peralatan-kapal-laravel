@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
+            $table->decimal('price', 25, 5);
             $table->string('unit')->comment('kg, meter, etc');
             $table->text('note')->nullable();
             $table->timestamps();

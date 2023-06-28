@@ -21,6 +21,7 @@
                         <tr>
                             <th class="col-1">No</th>
                             <th class="col-2">Nama</th>
+                            <th class="col-2">Harga</th>
                             <th class="col-2">Suplier</th>
                             <th class="col-1">Satuan</th>
                             <th class="col-3">Catatan</th>
@@ -34,12 +35,14 @@
                                     <x-iterate :pagination="$products" :loop="$loop"></x-iterate>
                                 </td>
                                 <td>{{ $product->name }}</td>
+                                <td>Rp. {{ $product->price_formatted }}</td>
                                 <td>{{ $product->supplier->name }}</td>
                                 <td>{{ $product->unit }}</td>
                                 <td>{{ $product->note ?? '-' }}</td>
                                 <td>
                                     <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>
                                     <button class="btn btn-danger btn-action trigger--modal-delete cursor-pointer" data-url="{{ route('admin.products.destroy', $product) }}"><i class="fas fa-trash"></i></button>
+                                    <a href="{{ route('admin.products.snapshots.index', $product) }}" class="btn btn-light"><i class="fa fa-history"></i></a>
                                 </td>
                             </tr>
                         @empty

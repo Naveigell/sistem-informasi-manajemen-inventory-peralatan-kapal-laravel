@@ -32,7 +32,7 @@ class RequestOrderSeeder extends Seeder
         RequestOrder::insert($requests);
 
         $requests = RequestOrder::all();
-        $products = Product::all();
+        $products = Product::with('latestSnapshot')->get();
 
         $requestOrderDetails = [];
 
@@ -42,6 +42,7 @@ class RequestOrderSeeder extends Seeder
 
                 $requestOrderDetails[] = [
                     "product_id" => $product->id,
+                    "product_snapshot_id" => $product->latestSnapshot->id,
                     "supplier_id" => $product->supplier_id,
                     "request_id" => $request->id,
                     "quantity" => rand(2, 5),

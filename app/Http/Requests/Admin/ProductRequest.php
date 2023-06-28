@@ -19,6 +19,7 @@ class ProductRequest extends FormRequest
         return [
             "supplier_id" => "required|string|in:{$suppliers}",
             "name" => "required|string|max:100",
+            "price" => "required|integer|min:1|max:1000000000", // 1 billion rupiah
             "unit" => "required|string|max:10",
             "note" => "nullable|string|max:2000",
         ];

@@ -31,6 +31,6 @@ class OrderRequest extends FormRequest
     {
         $request = RequestOrder::find($this->get('request_id'))->load('requestOrderDetails');
 
-        return $request->requestOrderDetails->map(fn ($detail, $index) => $detail->only('product_id', 'quantity', 'supplier_id'));
+        return $request->requestOrderDetails->map(fn ($detail, $index) => $detail->only('product_id', 'product_snapshot_id', 'quantity', 'supplier_id'));
     }
 }

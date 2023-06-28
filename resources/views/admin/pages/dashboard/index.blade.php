@@ -36,21 +36,6 @@
         </div>
         <div class="col-3">
             <div class="card card-statistic-1">
-                <div class="card-icon bg-warning">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="card-wrap">
-                    <div class="card-header">
-                        <h4>Total Pengiriman (Sedang Dikirim)</h4>
-                    </div>
-                    <div class="card-body">
-                        {{ $totalShippingOnDelivery }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-            <div class="card card-statistic-1">
                 <div class="card-icon bg-danger">
                     <i class="fas fa-user"></i>
                 </div>
@@ -60,6 +45,21 @@
                     </div>
                     <div class="card-body">
                         {{ $totalShippingArrived }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card card-statistic-1">
+                <div class="card-icon bg-warning">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-wrap">
+                    <div class="card-header">
+                        <h4>Total Pengiriman (Sedang Dikirim)</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ $totalShippingOnDelivery }}
                     </div>
                 </div>
             </div>
@@ -83,18 +83,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         const data = {
-            labels: @json(array_keys($data)),
+            labels: @json(array_keys($months)),
             datasets: [{
                 label: 'Pengiriman (Tiba)',
-                backgroundColor: 'rgb(111,169,227)',
-                borderColor: 'rgb(111,169,227)',
-                data: @json(array_values($data)),
+                backgroundColor: 'rgb(252, 84, 75)',
+                borderColor: 'rgb(252, 84, 75)',
+                data: @json(array_values($shippingsData)),
+                lineTension: 0.4,
+                fill: true
+            },
+            {
+                label: 'Order',
+                backgroundColor: 'rgb(103, 119, 239)',
+                borderColor: 'rgb(103, 119, 239)',
+                data: @json(array_values($ordersData)),
                 lineTension: 0.4,
                 fill: true
             }]
         };
         const config = {
-            type: 'line',
+            type: 'bar',
             data: data,
             options: {
                 scale: {
