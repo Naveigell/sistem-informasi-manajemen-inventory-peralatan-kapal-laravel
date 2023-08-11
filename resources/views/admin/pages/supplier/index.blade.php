@@ -10,9 +10,11 @@
         <div class="card">
             <div class="card-header">
                 <h4>Supplier</h4>
-                <div class="card-header-action">
-                    <a href="{{ route('admin.suppliers.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Supplier</a>
-                </div>
+                @if(auth()->user()->isAdmin() && auth()->user()->isInBali())
+                    <div class="card-header-action">
+                        <a href="{{ route('admin.suppliers.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Supplier</a>
+                    </div>
+                @endif
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -23,7 +25,9 @@
                             <th class="col-2">Nama Supplier</th>
                             <th class="col-2">Kota</th>
                             <th class="col-2">Metode Pembayaran</th>
-                            <th class="col-2">Aksi</th>
+                            @if(auth()->user()->isAdmin() && auth()->user()->isInBali())
+                                <th class="col-1">Aksi</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -37,10 +41,12 @@
                                 <td>
                                     <span class="badge {{ $supplier->payment_type_class_formatted }}">{{ $supplier->payment_type_formatted }}</span>
                                 </td>
-                                <td>
-                                    <a href="{{ route('admin.suppliers.edit', $supplier) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>
-                                    <button class="btn btn-danger btn-action trigger--modal-delete cursor-pointer" data-url="{{ route('admin.suppliers.destroy', $supplier) }}"><i class="fas fa-trash"></i></button>
-                                </td>
+                                @if(auth()->user()->isAdmin() && auth()->user()->isInBali())
+                                    <td>
+                                        <a href="{{ route('admin.suppliers.edit', $supplier) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>
+                                        <button class="btn btn-danger btn-action trigger--modal-delete cursor-pointer" data-url="{{ route('admin.suppliers.destroy', $supplier) }}"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                @endif
                             </tr>
                         @empty
                             <tr>

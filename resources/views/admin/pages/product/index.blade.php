@@ -10,9 +10,11 @@
         <div class="card">
             <div class="card-header">
                 <h4>Produk</h4>
-                <div class="card-header-action">
-                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Produk</a>
-                </div>
+                @if(auth()->user()->isAdmin() && auth()->user()->isInBali())
+                    <div class="card-header-action">
+                        <a href="{{ route('admin.products.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Produk</a>
+                    </div>
+                @endif
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -40,8 +42,10 @@
                                 <td>{{ $product->unit }}</td>
                                 <td>{{ $product->note ?? '-' }}</td>
                                 <td>
-                                    <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>
-                                    <button class="btn btn-danger btn-action trigger--modal-delete cursor-pointer" data-url="{{ route('admin.products.destroy', $product) }}"><i class="fas fa-trash"></i></button>
+                                    @if(auth()->user()->isAdmin() && auth()->user()->isInBali())
+                                        <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>
+                                        <button class="btn btn-danger btn-action trigger--modal-delete cursor-pointer" data-url="{{ route('admin.products.destroy', $product) }}"><i class="fas fa-trash"></i></button>
+                                    @endif
                                     <a href="{{ route('admin.products.snapshots.index', $product) }}" class="btn btn-light"><i class="fa fa-history"></i></a>
                                 </td>
                             </tr>

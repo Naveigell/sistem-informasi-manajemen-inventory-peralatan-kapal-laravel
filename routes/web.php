@@ -26,6 +26,9 @@ Route::prefix('admin')
         Route::resource('shippings', \App\Http\Controllers\Admin\ShippingController::class)->except('show', 'destroy');
 
         Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->except('show');
+        Route::prefix('orders')->name('orders.')->group(function () {
+            Route::resource('notes', \App\Http\Controllers\Admin\OrderNoteController::class)->only('edit', 'update')->parameter('notes', 'order');
+        });
         Route::resource('request-orders', \App\Http\Controllers\Admin\RequestOrderController::class)
             ->except('show')
             ->parameter('request-orders', 'requestOrder');

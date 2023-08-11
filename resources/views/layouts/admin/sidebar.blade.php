@@ -28,6 +28,8 @@
             @if (auth()->user()->isDirector())
                 <li class="menu-header">Members</li>
                 <li class="@if (request()->routeIs('admin.users.*')) active @endif"><a class="nav-link" href="{{ route('admin.users.index') }}"><i class="fas fa-user"></i> <span>Admin</span></a></li>
+                <li class="menu-header">Request & Shipping</li>
+                <li class="@if (request()->routeIs('admin.orders.*')) active @endif"><a class="nav-link" href="{{ route('admin.orders.index') }}"><i class="fas fa-download"></i> <span>Order</span></a></li>
             @endif
         </ul>
     </aside>

@@ -33,7 +33,13 @@
                                 <td>{{ $order->order_details_count }}</td>
                                 <td>{{ $order->created_at->format('d F Y') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.orders.edit', $order) }}" class="btn btn-warning"><i class="fa fa-box"></i></a>
+                                    @if(auth()->user()->isAdmin())
+                                        <a href="{{ route('admin.orders.edit', $order) }}" class="btn btn-warning"><i class="fa fa-box"></i></a>
+                                    @endif
+
+                                    @if(auth()->user()->isDirector())
+                                        <a href="{{ route('admin.orders.notes.edit', $order) }}" class="btn btn-warning"><i class="fa fa-sticky-note"></i></a>
+                                    @endif
                                 </td>
                             </tr>
                         @empty
