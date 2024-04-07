@@ -13,7 +13,7 @@ class Supplier extends Model
     const PAYMENT_TYPE_TRANSFER = 'transfer';
 
     protected $fillable = [
-        'name', 'city', 'payment_type',
+        'name', 'city', 'payment_type', 'phone', 'operator_name',
     ];
 
     public function products()

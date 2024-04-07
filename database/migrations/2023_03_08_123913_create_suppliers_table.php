@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('city');
             $table->string('payment_type');
+            $table->string('phone');
+            $table->string('operator_name');
             $table->timestamps();
         });
     }

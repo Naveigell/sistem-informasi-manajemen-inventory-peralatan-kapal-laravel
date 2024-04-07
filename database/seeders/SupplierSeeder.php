@@ -22,11 +22,13 @@ class SupplierSeeder extends Seeder
 
         foreach (range(1, 25) as $item) {
             $suppliers[] = [
-                "name"         => $faker->country . '-' . $faker->countryCode,
-                "city"         => $faker->city,
-                "payment_type" => Arr::random([Supplier::PAYMENT_TYPE_CASH, Supplier::PAYMENT_TYPE_TRANSFER]),
-                "created_at"   => now()->toDateTimeString(),
-                "updated_at"   => now()->toDateTimeString(),
+                "name"          => $faker->country . '-' . $faker->countryCode,
+                "city"          => $faker->city,
+                "payment_type"  => Arr::random([Supplier::PAYMENT_TYPE_CASH, Supplier::PAYMENT_TYPE_TRANSFER]),
+                "phone"         => $faker->unique()->numerify("08##########"),
+                "operator_name" => $faker->name,
+                "created_at"    => now()->toDateTimeString(),
+                "updated_at"    => now()->toDateTimeString(),
             ];
         }
 

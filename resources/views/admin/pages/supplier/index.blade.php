@@ -21,12 +21,14 @@
                     <table class="table table-striped mb-4">
                         <thead>
                         <tr>
-                            <th class="col-1">No</th>
+                            <th class="">No</th>
                             <th class="col-2">Nama Supplier</th>
                             <th class="col-2">Kota</th>
                             <th class="col-2">Metode Pembayaran</th>
+                            <th class="col-2">No Telp</th>
+                            <th class="col-2">Operator</th>
                             @if(auth()->user()->isAdmin() && auth()->user()->isInBali())
-                                <th class="col-1">Aksi</th>
+                                <th class="col-3">Aksi</th>
                             @endif
                         </tr>
                         </thead>
@@ -41,6 +43,8 @@
                                 <td>
                                     <span class="badge {{ $supplier->payment_type_class_formatted }}">{{ $supplier->payment_type_formatted }}</span>
                                 </td>
+                                <td>{{ $supplier->phone }}</td>
+                                <td>{{ $supplier->operator_name }}</td>
                                 @if(auth()->user()->isAdmin() && auth()->user()->isInBali())
                                     <td>
                                         <a href="{{ route('admin.suppliers.edit', $supplier) }}" class="btn btn-warning"><i class="fa fa-pen"></i></a>

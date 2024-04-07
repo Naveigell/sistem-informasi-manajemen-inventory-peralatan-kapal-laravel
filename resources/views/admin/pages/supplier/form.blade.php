@@ -44,9 +44,41 @@
                         </div>
                         @enderror
                     </div>
+
+                    <div class="form-group">
+                        <label>Nomor Telp</label>
+                        <input type="text" id="phone-number" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', @$supplier ? $supplier->phone : '') }}">
+                        @error('phone')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nama Operator</label>
+                        <input type="text" class="form-control @error('operator_name') is-invalid @enderror" name="operator_name" value="{{ old('operator_name', @$supplier ? $supplier->operator_name : '') }}">
+                        @error('operator_name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>
         </div>
     </div>
 @endsection
+
+@push('stack-script')
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#phone-number').inputmask({
+                removeMaskOnSubmit: true,
+                mask: "(08) 999-9999-999"
+            });
+        })
+    </script>
+@endpush
