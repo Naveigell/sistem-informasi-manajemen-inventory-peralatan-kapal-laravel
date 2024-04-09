@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('payment_type');
             $table->string('phone');
             $table->string('operator_name');
+            $table->text('address');
             $table->timestamps();
         });
     }

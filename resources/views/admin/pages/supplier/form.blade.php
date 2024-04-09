@@ -2,6 +2,14 @@
 
 @section('content-title', 'Supplier')
 
+@push('stack-style')
+    <style>
+        textarea {
+           resize: none;
+        }
+    </style>
+@endpush
+
 @section('content-body')
     <div class="col-12 col-md-12 col-lg-12 no-padding-margin">
         <div class="card">
@@ -59,6 +67,16 @@
                         <label>Nama Operator</label>
                         <input type="text" class="form-control @error('operator_name') is-invalid @enderror" name="operator_name" value="{{ old('operator_name', @$supplier ? $supplier->operator_name : '') }}">
                         @error('operator_name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alamat Supplier</label>
+                        <textarea name="address" id="address" cols="30" rows="10" class="form-control @error('address') is-invalid @enderror" style="height: 200px !important;">{{ old('address', @$supplier ? $supplier->address : '') }}</textarea>
+                        @error('address')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>

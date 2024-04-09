@@ -27,6 +27,7 @@ class SupplierSeeder extends Seeder
                 "payment_type"  => Arr::random([Supplier::PAYMENT_TYPE_CASH, Supplier::PAYMENT_TYPE_TRANSFER]),
                 "phone"         => $faker->unique()->numerify("08##########"),
                 "operator_name" => $faker->name,
+                "address"       => $faker->realText,
                 "created_at"    => now()->toDateTimeString(),
                 "updated_at"    => now()->toDateTimeString(),
             ];

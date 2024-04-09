@@ -23,6 +23,7 @@ class SupplierRequest extends FormRequest
             "payment_type" => "required|string|in:" . join(',', [Supplier::PAYMENT_TYPE_CASH, Supplier::PAYMENT_TYPE_TRANSFER]),
             "phone" => "required|string|digits_between:10,15",
             "operator_name" => "required|string|max:100",
+            "address" => "required|string|max:1000",
         ];
     }
 
